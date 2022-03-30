@@ -17,6 +17,7 @@ func main() {
 
 // getPages is check the pages can response
 func getPages() int {
+	pages := 0
 	resp, err := http.Get(baseURL)
 	chkErr(err)
 	chkCode(resp)
@@ -27,10 +28,10 @@ func getPages() int {
 	chkErr(err)
 
 	doc.Find(".pagination").Each(func(i int, s *goquery.Selection) {
-		fmt.Println(s.Html())
+		pages = s.Find("a").Length()
 	})
 
-	return 0
+	return pages
 }
 
 // chkErr is check the Error
@@ -46,3 +47,5 @@ func chkCode(resp *http.Response) {
 		log.Fatalln("Request failed with Status : ", resp.StatusCode)
 	}
 }
+
+//
